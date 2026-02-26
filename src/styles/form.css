@@ -1,0 +1,375 @@
+/* ============================================================
+   FORM STYLES — Futurense themed
+   ============================================================ */
+
+.form-container {
+    max-width: 820px;
+    margin: 0 auto;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-2xl);
+    padding: var(--space-2xl);
+    box-shadow: var(--shadow-md);
+}
+
+[data-theme="dark"] .form-container {
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+
+.form-header {
+    margin-bottom: var(--space-xl);
+}
+
+.form-header h2 {
+    font-family: var(--font-heading);
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    letter-spacing: -0.4px;
+}
+
+.form-header p {
+    color: var(--text-secondary);
+    font-size: 14px;
+}
+
+/* Exception banner */
+.exception-banner {
+    padding: 14px var(--space-lg);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--space-lg);
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    font-size: 14px;
+    font-weight: 500;
+    animation: fadeIn 0.3s ease;
+    border: 1px solid;
+}
+
+.exception-banner.level-0 {
+    background: var(--success-bg);
+    border-color: var(--success-border);
+    color: var(--success);
+}
+
+.exception-banner.level-1,
+.exception-banner.level-2 {
+    background: var(--warning-bg);
+    border-color: var(--warning-border);
+    color: var(--warning);
+}
+
+.exception-banner.level-3 {
+    background: var(--error-bg);
+    border-color: var(--error-border);
+    color: var(--error);
+}
+
+.exception-banner-icon {
+    font-size: 18px;
+}
+
+/* Form grid */
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-lg);
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.form-group.full-width {
+    grid-column: 1 / -1;
+}
+
+.form-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.form-label .required {
+    color: var(--error);
+}
+
+/* Rule badges */
+.rule-badge {
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: var(--radius-full);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.rule-badge.strict {
+    background: var(--error-bg);
+    color: var(--error);
+}
+
+.rule-badge.soft {
+    background: var(--warning-bg);
+    color: var(--warning);
+}
+
+/* Inputs */
+.form-input,
+.form-select {
+    padding: 13px 16px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    background: var(--bg-input);
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    font-size: 14px;
+    transition: all var(--transition);
+    outline: none;
+    width: 100%;
+}
+
+.form-input::placeholder {
+    color: var(--text-muted);
+}
+
+.form-input:focus,
+.form-select:focus {
+    border-color: var(--accent-primary);
+    background: var(--bg-input-focus);
+    box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+.form-input.valid {
+    border-color: var(--success);
+}
+
+.form-input.valid:focus {
+    box-shadow: 0 0 0 3px var(--success-border);
+}
+
+.form-input.invalid {
+    border-color: var(--error);
+}
+
+.form-input.invalid:focus {
+    box-shadow: 0 0 0 3px var(--error-border);
+}
+
+.form-input.exception {
+    border-color: var(--warning);
+}
+
+.form-select {
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12' fill='none'%3E%3Cpath d='M3 4.5L6 7.5L9 4.5' stroke='%236b7280' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 40px;
+}
+
+/* Field wrapper */
+.validation-icon {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 15px;
+    pointer-events: none;
+}
+
+.field-wrapper {
+    position: relative;
+}
+
+.field-error {
+    font-size: 12px;
+    color: var(--error);
+    display: flex;
+    align-items: flex-start;
+    gap: 4px;
+    animation: fadeIn 0.2s ease;
+}
+
+.field-error-icon {
+    flex-shrink: 0;
+    margin-top: 1px;
+}
+
+.field-success {
+    font-size: 12px;
+    color: var(--success);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    animation: fadeIn 0.2s ease;
+}
+
+/* Exception toggle area */
+.exception-area {
+    margin-top: var(--space-sm);
+    padding: var(--space-md);
+    background: var(--warning-bg);
+    border: 1px solid var(--warning-border);
+    border-radius: var(--radius-md);
+    animation: fadeIn 0.3s ease;
+}
+
+.exception-toggle-row {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-sm);
+}
+
+.exception-checkbox {
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 2px solid var(--warning);
+    border-radius: 5px;
+    cursor: pointer;
+    position: relative;
+    flex-shrink: 0;
+    transition: all var(--transition);
+}
+
+.exception-checkbox:checked {
+    background: var(--warning);
+}
+
+.exception-checkbox:checked::after {
+    content: '✓';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.exception-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--warning);
+    cursor: pointer;
+}
+
+.rationale-area {
+    animation: fadeIn 0.2s ease;
+}
+
+.rationale-textarea {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid var(--warning-border);
+    border-radius: var(--radius-md);
+    background: var(--bg-input);
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    font-size: 14px;
+    resize: vertical;
+    min-height: 80px;
+    outline: none;
+    transition: all var(--transition);
+}
+
+.rationale-textarea:focus {
+    border-color: var(--warning);
+    box-shadow: 0 0 0 3px var(--warning-border);
+}
+
+.rationale-textarea.valid {
+    border-color: var(--success);
+}
+
+.rationale-hint {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: var(--space-xs);
+}
+
+.rationale-char-count {
+    font-size: 11px;
+    color: var(--text-muted);
+    text-align: right;
+    margin-top: 2px;
+}
+
+.rationale-char-count.sufficient {
+    color: var(--success);
+}
+
+.rationale-errors {
+    margin-top: var(--space-xs);
+}
+
+/* Form actions */
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--space-md);
+    margin-top: var(--space-xl);
+    padding-top: var(--space-lg);
+    border-top: 1px solid var(--border-light);
+}
+
+/* Success modal summary */
+.success-summary {
+    display: grid;
+    gap: var(--space-md);
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    padding: var(--space-sm) 0;
+    border-bottom: 1px solid var(--border-light);
+    font-size: 14px;
+}
+
+.summary-row:last-child {
+    border-bottom: none;
+}
+
+.summary-label {
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+.summary-value {
+    color: var(--text-primary);
+    font-weight: 600;
+    text-align: right;
+    max-width: 60%;
+    word-break: break-word;
+}
+
+.summary-value.exception {
+    color: var(--warning);
+}
+
+.summary-value.flagged {
+    color: var(--error);
+}
+
+@media (max-width: 768px) {
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .form-container {
+        padding: var(--space-lg);
+    }
+}

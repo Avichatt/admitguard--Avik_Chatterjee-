@@ -1,0 +1,18 @@
+AdmitGuard Wireframe (Text Representation)
+=====================================
+
+[ Header: Logo | Nav: New Entry, Entries, Audit, Dashboard | Theme Toggle ]
+
+[ Main Content Area ]
++-----------------------------------------------------------+
+| 📋 New Candidate Entry                                    |
+| [ Banner: Success/Warning Status ]                        |
++-----------------------------------------------------------+
+| [ Field: Full Name ]         [ Field: Email ]             |
+| [ Field: Phone ]             [ Field: DOB ]               |
+| ...                                                       |
++-----------------------------------------------------------+
+| [ Submit Button (Pill) ]                                  |
++-----------------------------------------------------------+
+
+[ Footer: Futurense Brand Info ]

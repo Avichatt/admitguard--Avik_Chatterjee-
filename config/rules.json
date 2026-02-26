@@ -1,0 +1,166 @@
+{
+  "programStartDate": "2026-08-01",
+  "fields": [
+    {
+      "fieldId": "fullName",
+      "label": "Full Name",
+      "type": "text",
+      "placeholder": "e.g. Rahul Sharma",
+      "required": true,
+      "ruleCategory": "strict",
+      "exceptionAllowed": false,
+      "validations": [
+        { "type": "required", "message": "Full Name is required" },
+        { "type": "minLength", "value": 2, "message": "Name must be at least 2 characters" },
+        { "type": "pattern", "value": "^[A-Za-z\\s.'-]+$", "message": "Name cannot contain numbers or special characters" }
+      ]
+    },
+    {
+      "fieldId": "email",
+      "label": "Email",
+      "type": "email",
+      "placeholder": "e.g. rahul@example.com",
+      "required": true,
+      "ruleCategory": "strict",
+      "exceptionAllowed": false,
+      "validations": [
+        { "type": "required", "message": "Email is required" },
+        { "type": "pattern", "value": "^[a-zA-Z0-9._%+\\-]+@[a-zA-Z0-9.\\-]+\\.[a-zA-Z]{2,}$", "message": "Please enter a valid email address" },
+        { "type": "unique", "message": "This email is already registered in the system" }
+      ]
+    },
+    {
+      "fieldId": "phone",
+      "label": "Phone Number",
+      "type": "tel",
+      "placeholder": "e.g. 9876543210",
+      "required": true,
+      "ruleCategory": "strict",
+      "exceptionAllowed": false,
+      "validations": [
+        { "type": "required", "message": "Phone number is required" },
+        { "type": "pattern", "value": "^[6-9]\\d{9}$", "message": "Must be a 10-digit Indian mobile number starting with 6, 7, 8, or 9" }
+      ]
+    },
+    {
+      "fieldId": "dateOfBirth",
+      "label": "Date of Birth",
+      "type": "date",
+      "required": true,
+      "ruleCategory": "soft",
+      "exceptionAllowed": true,
+      "validations": [
+        { "type": "required", "message": "Date of Birth is required" },
+        { "type": "ageRange", "min": 18, "max": 35, "message": "Candidate must be between 18 and 35 years old on the program start date" }
+      ]
+    },
+    {
+      "fieldId": "highestQualification",
+      "label": "Highest Qualification",
+      "type": "select",
+      "required": true,
+      "ruleCategory": "strict",
+      "exceptionAllowed": false,
+      "options": ["B.Tech", "B.E.", "B.Sc", "BCA", "M.Tech", "M.Sc", "MCA", "MBA"],
+      "validations": [
+        { "type": "required", "message": "Please select a qualification" },
+        { "type": "oneOf", "values": ["B.Tech", "B.E.", "B.Sc", "BCA", "M.Tech", "M.Sc", "MCA", "MBA"], "message": "Qualification must be one of the approved options" }
+      ]
+    },
+    {
+      "fieldId": "graduationYear",
+      "label": "Graduation Year",
+      "type": "number",
+      "placeholder": "e.g. 2022",
+      "required": true,
+      "ruleCategory": "soft",
+      "exceptionAllowed": true,
+      "validations": [
+        { "type": "required", "message": "Graduation year is required" },
+        { "type": "range", "min": 2015, "max": 2025, "message": "Graduation year must be between 2015 and 2025" }
+      ]
+    },
+    {
+      "fieldId": "percentageCgpa",
+      "label": "Percentage / CGPA",
+      "type": "number",
+      "placeholder": "e.g. 72.5 or 7.8",
+      "step": "0.01",
+      "required": true,
+      "ruleCategory": "soft",
+      "exceptionAllowed": true,
+      "validations": [
+        { "type": "required", "message": "Percentage or CGPA is required" },
+        { "type": "percentageOrCgpa", "minPercentage": 60, "minCgpa": 6.0, "cgpaScale": 10, "message": "Minimum 60% or 6.0 CGPA (on 10-point scale) required" }
+      ]
+    },
+    {
+      "fieldId": "screeningTestScore",
+      "label": "Screening Test Score",
+      "type": "number",
+      "placeholder": "Score out of 100",
+      "required": true,
+      "ruleCategory": "soft",
+      "exceptionAllowed": true,
+      "validations": [
+        { "type": "required", "message": "Screening test score is required" },
+        { "type": "min", "value": 0, "message": "Score cannot be negative" },
+        { "type": "max", "value": 100, "message": "Score cannot exceed 100" },
+        { "type": "min", "value": 40, "message": "Minimum screening test score of 40 out of 100 is required" }
+      ]
+    },
+    {
+      "fieldId": "interviewStatus",
+      "label": "Interview Status",
+      "type": "select",
+      "required": true,
+      "ruleCategory": "strict",
+      "exceptionAllowed": false,
+      "options": ["Cleared", "Waitlisted", "Rejected"],
+      "validations": [
+        { "type": "required", "message": "Please select interview status" },
+        { "type": "oneOf", "values": ["Cleared", "Waitlisted", "Rejected"], "message": "Interview status must be Cleared, Waitlisted, or Rejected" },
+        { "type": "notValue", "value": "Rejected", "message": "Candidate with 'Rejected' interview status cannot be enrolled" }
+      ]
+    },
+    {
+      "fieldId": "aadhaarNumber",
+      "label": "Aadhaar Number",
+      "type": "text",
+      "placeholder": "e.g. 123456789012",
+      "required": true,
+      "ruleCategory": "strict",
+      "exceptionAllowed": false,
+      "validations": [
+        { "type": "required", "message": "Aadhaar number is required" },
+        { "type": "pattern", "value": "^\\d{12}$", "message": "Aadhaar number must be exactly 12 digits with no alphabets" }
+      ]
+    },
+    {
+      "fieldId": "offerLetterSent",
+      "label": "Offer Letter Sent",
+      "type": "select",
+      "required": true,
+      "ruleCategory": "strict",
+      "exceptionAllowed": false,
+      "options": ["Yes", "No"],
+      "validations": [
+        { "type": "required", "message": "Please select Yes or No" },
+        { "type": "crossField", "condition": "offerLetterRequiresInterview", "message": "Offer letter can only be sent if Interview Status is 'Cleared' or 'Waitlisted'" }
+      ]
+    }
+  ],
+  "systemRules": [
+    {
+      "ruleId": "maxExceptions",
+      "type": "exceptionCountLimit",
+      "maxExceptions": 2,
+      "message": "This candidate has more than 2 exceptions and requires manager review"
+    }
+  ],
+  "exceptionConfig": {
+    "minRationaleLength": 30,
+    "requiredKeywords": ["approved by", "special case", "documentation pending", "waiver granted"],
+    "keywordMatchMode": "atLeastOne"
+  }
+}

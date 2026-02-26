@@ -1,21 +1,30 @@
-# Sprint Log
+# Sprint Log — AdmitGuard
 
-## Phase 1: Foundation (Wednesday Evening)
-- Researched "Vibe Coding" and Futurense aesthetic.
-- Initial wireframing and architecture planning.
-- Set up Vite + Vanilla JS project structure.
+## Sprint 0 (Day 3 — Wednesday PM + Evening)
+- **Goal:** Understand problem, plan approach, set up repo, research tools
+- **Done:** Repo created, README written, wireframe sketched, researched AI Studio Build mode
+- **Research:** Read official Futurense site, watched Vite + Vanilla JS tutorials, experimented with AI Studio interface
+- **Blockers:** None
+- **Key Decision:** Chose single-page form over multi-step wizard to keep the cognitive load low for rapid data entry.
+- **Prompts Drafted:** 3 (Foundation, Strict Rules, Dashboard)
 
-## Phase 2: Core Engine & UI
-- Implemented JSON-configurable rules engine.
-- Built the Admission Form with real-time validation.
-- Implemented strict and soft rule logic.
+## Sprint 1 (Day 4 — Thursday PM + Evening)
+- **Goal:** Working form with strict validation
+- **Done:** All 11 fields rendering, 7 strict rules validated, Futurense UI foundation applied
+- **Blockers:** Initial phone validation was too permissive; fixed with dedicated regex prompt.
+- **Key Decision:** Used inline validation instead of submit-time validation for better UX.
+- **Prompts Used:** 3 (Foundation, Strict Rules, Edge Cases)
+- **AI Evaluation:** Prompt 1 output was 80% correct. Had to refine dropdown behavior manually.
 
-## Phase 3: Dashboard & Audit
-- Built the Dashboard with stats and charts.
-- Implemented the Audit Log view.
-- Added CSV/JSON export functionality.
+## Sprint 2 (Day 5 — Friday AM)
+- **Goal:** Soft rules and exception management
+- **Done:** Implemented exception toggles, rationale validation (30 chars + keywords), and manager flagging.
+- **Key Decision:** Required specific keywords in rationale to ensure auditors have enough context.
 
-## Phase 4: Backend & Redesign
-- Integrated Node.js/Express backend with SQLite.
-- Fully redesigned the UI to match the Futurense homepage.
-- Implemented Dark/Light mode toggle.
+## Sprint 3 (Day 5 — Friday PM)
+- **Goal:** Configurable rules engine and Backend Integration
+- **Done:** Refactored logic to `rules.json`, set up Express + SQLite backend, migrated frontend to `fetch`.
+
+## Sprint 4 (Day 5 Evening)
+- **Goal:** Final polish and documentation
+- **Done:** Completed Futurense UI redesign (true black dark mode), finalized README and Sprint Log.

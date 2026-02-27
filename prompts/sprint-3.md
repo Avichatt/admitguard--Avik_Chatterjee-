@@ -51,3 +51,15 @@ Add an audit trail feature:
 3. Store the log in localStorage so it persists across page refreshes.
 
 4. Add a "Clear Log" button (with a confirmation dialog) for testing.
+
+---
+
+# Sprint-3: UI Polish and Confirmation Flow
+
+At this stage, switch to Annotation Mode in Antigravity Studio:
+
+Click on specific UI elements and describe changes
+"Make this form header larger and add a company logo placeholder"
+"The error messages are too close to the next field — add spacing"
+"Add a confirmation modal before submission showing a summary of all entered data"
+"Add a subtle animation when validation passes on a field"

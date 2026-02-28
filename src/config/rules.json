@@ -1,0 +1,74 @@
+{
+    "programName": "IIT Gandhinagar M.Tech Admission",
+    "programStartDate": "2025-08-01",
+    "rules": [
+        {
+            "field": "fullName",
+            "label": "Full Name",
+            "type": "strict",
+            "validation": "required,noNumbers",
+            "errorMessage": "Enter a valid full name (no numbers)"
+        },
+        {
+            "field": "email",
+            "label": "Email Address",
+            "type": "strict",
+            "validation": "required,pattern:^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$,unique",
+            "errorMessage": "Enter a unique valid email"
+        },
+        {
+            "field": "dob",
+            "label": "Date of Birth",
+            "type": "soft",
+            "validation": "required,ageRange:20-30",
+            "errorMessage": "Age should be between 20-30",
+            "rationaleKeywords": [
+                "Age",
+                "Birth",
+                "Candidate"
+            ],
+            "exceptionAllowed": true
+        },
+        {
+            "field": "graduationYear",
+            "label": "Graduation Year",
+            "type": "soft",
+            "validation": "required,range:2018-2025",
+            "errorMessage": "Graduation year must be 2018 or later",
+            "rationaleKeywords": [
+                "Degree",
+                "Graduation",
+                "Year"
+            ],
+            "exceptionAllowed": true
+        },
+        {
+            "field": "cgpa",
+            "label": "UG Score (CGPA/%)",
+            "type": "soft",
+            "validation": "required,percentageOrCgpa:60|7.0",
+            "errorMessage": "Minimum 60% or 7.0 CGPA required",
+            "rationaleKeywords": [
+                "Score",
+                "Merit",
+                "Academics",
+                "CGPA"
+            ],
+            "exceptionAllowed": true
+        },
+        {
+            "field": "interviewStatus",
+            "label": "Interview Status",
+            "type": "strict",
+            "validation": "required,oneOf:Cleared|Waitlisted|Rejected",
+            "errorMessage": "Select a valid status"
+        }
+    ],
+    "systemRules": [
+        {
+            "type": "exceptionCountLimit",
+            "maxExceptions": 2,
+            "message": "Candidate has too many soft-rule breaches (>2). Requires direct Head of Admissions sign-off."
+        }
+    ]
+}

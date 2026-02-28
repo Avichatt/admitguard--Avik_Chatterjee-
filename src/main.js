@@ -3,11 +3,13 @@ import './styles/form.css';
 import './styles/grid.css';
 import './styles/dashboard.css';
 import './styles/audit.css';
+import './styles/login.css';
 
 import { renderFormView } from './views/formView.js';
 import { renderGridView } from './views/gridView.js';
 import { renderAuditView } from './views/auditView.js';
 import { renderDashboardView } from './views/dashboardView.js';
+import { renderLoginView } from './views/loginView.js';
 
 const VIEWS = {
   form: { label: 'New Entry', icon: '📝' },
@@ -18,7 +20,23 @@ const VIEWS = {
 
 let currentView = 'form';
 
+function checkAuth() {
+  const session = sessionStorage.getItem('admitguard_session');
+  const app = document.getElementById('app');
+
+  if (!session) {
+    renderLoginView(app, () => {
+      sessionStorage.setItem('admitguard_session', 'true');
+      init();
+    });
+    return false;
+  }
+  return true;
+}
+
 function init() {
+  if (!checkAuth()) return;
+
   const app = document.getElementById('app');
 
   // Default to dark theme (matches Futurense homepage)
@@ -32,7 +50,7 @@ function init() {
       <div class="header-inner">
         <div class="app-logo">
           <div class="app-logo-icon">AV</div>
-          <span class="app-logo-text">AdmitVerify</span>
+          <span class="app-logo-text">Admitguard</span>
         </div>
         <nav class="nav-tabs" id="nav-tabs">
           ${Object.entries(VIEWS).map(([id, v]) => `
@@ -43,6 +61,7 @@ function init() {
           `).join('')}
         </nav>
         <div class="header-actions">
+          <button id="logout-btn" class="btn btn-secondary btn-sm" style="margin-right: 10px;">Logout</button>
           <button class="theme-toggle" id="theme-toggle" title="Toggle dark/light mode">
             ${isDark ? '☀️' : '🌙'}
           </button>
@@ -60,6 +79,12 @@ function init() {
   // Theme toggle
   document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
 
+  // Logout
+  document.getElementById('logout-btn').addEventListener('click', () => {
+    sessionStorage.removeItem('admitguard_session');
+    window.location.reload();
+  });
+
   // Render initial view
   renderView(currentView);
 }
@@ -74,6 +99,7 @@ function navigateTo(view) {
 
 function renderView(view) {
   const content = document.getElementById('main-content');
+  if (!content) return;
   content.innerHTML = '';
 
   switch (view) {

@@ -5,7 +5,7 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const dbPath = path.join(__dirname, 'data', 'admitverify.db');
+const dbPath = path.join(__dirname, 'data', 'admitguard.db');
 const db = new Database(dbPath);
 
 // Initialize tables

@@ -1,20 +1,27 @@
-# AdmitGuard — Admission Eligibility Verification
+# Admitguard — Admission Eligibility Verification
+**Advanced Agentic Coding Project | Avik Chatterjee**
 
 ## Project Overview
-AdmitGuard is a modern, premium admission pipeline eligibility verification system designed for premier institutions (IITs, IIMs). It enforces complex eligibility rules, manages exceptions with mandatory rationale, and provides a full audit trail for all actions.
+Admitguard is a premium, high-integrity admission pipeline eligibility verification system designed for premier institutions (IITs, IIMs). It enforces complex eligibility rules, manages soft exceptions with mandatory rationale, and provides a full audit trail for all academic decisions.
 
-## Approach
-Built using a "Vibe Coding" approach (Wednesday evening research), the app prioritizes a premium user experience inspired by the Futurense IIT Gandhinagar aesthetic.
+## 🚀 Key Capabilities
+- **Validation Engine**: Tiered validation distinguishing between "Strict" rules (must-haves) and "Soft" rules (exceptions allowed with mandatory rationale).
+- **Manager Review System**: Automatically flags candidates with multiple exceptions for senior oversight.
+- **Immutable Audit Trail**: Shared system log for tracking all exceptions, rationales, and approval statuses.
+- **Premium UX**: Modern, dual-pane design with Glassmorphism, tailored for the Futurense x IIT Gandhinagar brand profile.
 
-- **Stack**: Vite + Vanilla JS + CSS (Glassmorphism/Dark Mode)
-- **Backend**: Node.js + Express + SQLite
-- **Validation**: JSON-configurable rules engine
+## 🛠️ Stack
+- **Frontend**: Vite + Vanilla JavaScript + Pure CSS (Design-first architecture)
+- **Backend**: Node.js + Express (API-led architecture)
+- **Database**: SQLite (SQL query-based data integrity)
+- **Logic**: JSON-configurable rules engine for zero-code configuration changes.
 
-## Setup
-1. Clone the repository.
-2. Install dependencies: `npm install`
-3. Start the dev server: `npm run dev`
-4. Access the app at `http://localhost:5173`
+## 📚 Documentation
+- [Solution Walkthrough](./walkthrough.md) — Detailed engineering teardown and demo flow.
 
-## Screenshots
-Screenshots of the redesign and system features are available in the `docs/` folder.
+## ⚙️ Setup
+1. **Clone**: `git clone [repository-url]`
+2. **Install**: `npm install`
+3. **Run**: `npm run dev`
+4. **Access**: `http://localhost:5173`
+   - *Login Credentials*: `test@gmail.com` | `password` (any non-empty values accepted for demo)

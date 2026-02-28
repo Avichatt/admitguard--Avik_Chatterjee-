@@ -20,28 +20,42 @@ export function renderGridView(container, onNavigate) {
   rules.fields.forEach(f => { fieldLabels[f.fieldId] = f.label; });
 
   function render() {
-    container.innerHTML = `
-      <div class="grid-container">
-        <div class="grid-toolbar">
-          <div style="display:flex; align-items:center; gap: var(--space-md);">
-            <h2 style="font-family:var(--font-heading); font-weight:700; font-size:24px;">📊 Candidate Entries</h2>
-            <span class="entry-count">${filteredCandidates.length} entries</span>
-          </div>
-          <div class="grid-actions">
-            <div class="grid-search">
-              <span class="grid-search-icon">🔍</span>
-              <input type="text" class="grid-search-input" id="grid-search" placeholder="Search by name, email, or status..." value="${searchTerm}" />
+    if (!document.getElementById('grid-layout-initialized')) {
+      container.innerHTML = `
+        <div class="grid-container" id="grid-layout-initialized">
+          <div class="grid-toolbar">
+            <div style="display:flex; align-items:center; gap: var(--space-md);">
+              <h2 style="font-family:var(--font-heading); font-weight:700; font-size:24px;">📊 Candidate Entries</h2>
+              <span class="entry-count" id="entry-count-display">${filteredCandidates.length} entries</span>
             </div>
-            <button class="btn btn-secondary btn-sm" id="btn-export-csv" title="Export as CSV">📄 CSV</button>
-            <button class="btn btn-secondary btn-sm" id="btn-export-json" title="Export as JSON">📋 JSON</button>
-            <button class="btn btn-primary btn-sm" id="btn-add-new">➕ Add New</button>
+            <div class="grid-actions">
+              <div class="grid-search">
+                <span class="grid-search-icon">🔍</span>
+                <input type="text" class="grid-search-input" id="grid-search" placeholder="Search by name, email, or phone..." value="${searchTerm}" />
+              </div>
+              <button class="btn btn-secondary btn-sm" id="btn-export-csv" title="Export as CSV">📄 CSV</button>
+              <button class="btn btn-secondary btn-sm" id="btn-export-json" title="Export as JSON">📋 JSON</button>
+              <button class="btn btn-primary btn-sm" id="btn-add-new">➕ Add New</button>
+            </div>
           </div>
+          <div id="table-render-target"></div>
         </div>
-        ${filteredCandidates.length === 0 ? renderEmpty() : renderTable()}
-      </div>
-    `;
+      `;
+      attachListeners();
+    }
 
-    attachListeners();
+    // Update count
+    const countDisplay = document.getElementById('entry-count-display');
+    if (countDisplay) {
+      countDisplay.textContent = `${filteredCandidates.length} entries`;
+    }
+
+    // Re-render only the table part
+    const tableTarget = document.getElementById('table-render-target');
+    if (tableTarget) {
+      tableTarget.innerHTML = filteredCandidates.length === 0 ? renderEmpty() : renderTable();
+      attachTableListeners();
+    }
   }
 
   function renderEmpty() {
@@ -152,17 +166,19 @@ export function renderGridView(container, onNavigate) {
 
   function attachListeners() {
     document.getElementById('grid-search')?.addEventListener('input', (e) => {
-      searchTerm = e.target.value.toLowerCase();
+      searchTerm = e.target.value.toLowerCase().trim();
+      const terms = searchTerm.split(/\s+/).filter(t => t.length > 0);
+
       filteredCandidates = candidates.filter(c => {
-        const searchable = `${c.data.fullName} ${c.data.email} ${c.status} ${c.data.interviewStatus}`.toLowerCase();
-        return searchable.includes(searchTerm);
+        const searchable = `${c.data.fullName} ${c.data.email} ${c.data.phone || ''} ${c.status} ${c.data.interviewStatus}`.toLowerCase();
+        if (terms.length === 0) return true;
+        return terms.every(term => searchable.includes(term));
       }).reverse();
       expandedRow = null;
       render();
     });
 
     document.getElementById('btn-add-new')?.addEventListener('click', () => onNavigate('form'));
-    document.getElementById('btn-add-first')?.addEventListener('click', () => onNavigate('form'));
 
     document.getElementById('btn-export-csv')?.addEventListener('click', () => {
       if (candidates.length === 0) {
@@ -181,13 +197,18 @@ export function renderGridView(container, onNavigate) {
       exportToJSON();
       showToast('JSON exported successfully', 'success');
     });
+  }
+
+  function attachTableListeners() {
+    // Re-attach empty state add first, because it's inside the dynamic table target
+    document.getElementById('btn-add-first')?.addEventListener('click', () => onNavigate('form'));
 
     // Row click to expand
     document.querySelectorAll('#entries-table tbody tr:not(.row-detail)').forEach(row => {
       row.addEventListener('click', () => {
         const idx = parseInt(row.dataset.index);
         expandedRow = expandedRow === idx ? null : idx;
-        render();
+        render(); // render will just update the table area
       });
     });
   }

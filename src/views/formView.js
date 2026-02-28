@@ -46,11 +46,11 @@ export function renderFormView(container, onNavigate) {
     group.className = 'form-group';
     if (field.fieldId === 'aadhaarNumber') group.classList.add('full-width');
 
-    const ruleBadge = `<span class="rule-badge ${field.ruleCategory}">${field.ruleCategory}</span>`;
+    const ruleBadge = ``; // Hidden as requested by user
 
     group.innerHTML = `
       <label class="form-label" for="field-${field.fieldId}">
-        ${field.label} <span class="required">*</span> ${ruleBadge}
+        ${field.label} <span class="required">*</span>
       </label>
       <div class="field-wrapper">
         ${renderInput(field)}

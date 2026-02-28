@@ -2,29 +2,54 @@ import { getAuditLog } from '../engine/store.js';
 
 export function renderAuditView(container) {
   let activeFilter = 'ALL';
+  let searchTerm = '';
+  let currentLog = [];
 
-  function render(logData = []) {
-    const log = logData;
-    const filtered = activeFilter === 'ALL'
-      ? log
-      : log.filter(e => e.type === activeFilter);
-
-    container.innerHTML = `
-      <div class="audit-container">
-        <div class="audit-header">
-          <h2>📜 Audit Trail</h2>
-          <div class="audit-filters">
-            ${renderFilterChip('ALL', 'All Events')}
-            ${renderFilterChip('SUBMISSION', 'Submissions')}
-            ${renderFilterChip('EXCEPTION_GRANTED', 'Exceptions')}
-            ${renderFilterChip('MANAGER_REVIEW_FLAGGED', 'Flagged')}
+  function render() {
+    if (!document.getElementById('audit-layout-initialized')) {
+      container.innerHTML = `
+        <div class="audit-container" id="audit-layout-initialized">
+          <div class="audit-header" style="flex-wrap: wrap;">
+            <h2>📜 Audit Trail</h2>
+            <div class="grid-search" style="flex-grow: 1; max-width: 400px; margin-left: auto;">
+              <span class="grid-search-icon">🔍</span>
+              <input type="text" class="grid-search-input" id="audit-search" placeholder="Search by date, email, or phone..." value="${searchTerm}" />
+            </div>
+            <div class="audit-filters" style="width: 100%; margin-top: var(--space-md);">
+              ${renderFilterChip('ALL', 'All Events')}
+              ${renderFilterChip('SUBMISSION', 'Submissions')}
+              ${renderFilterChip('EXCEPTION_GRANTED', 'Exceptions')}
+              ${renderFilterChip('MANAGER_REVIEW_FLAGGED', 'Flagged')}
+            </div>
           </div>
+          <div id="audit-timeline-target"></div>
         </div>
-        ${filtered.length === 0 ? renderEmpty() : renderTimeline(filtered)}
-      </div>
-    `;
+      `;
+      attachListeners();
+    }
 
-    attachListeners();
+    const terms = searchTerm.trim().split(/\s+/).filter(t => t.length > 0);
+
+    const filtered = currentLog.filter(e => {
+      if (activeFilter !== 'ALL' && e.type !== activeFilter) return false;
+
+      if (terms.length > 0) {
+        const timeStr = new Date(e.timestamp).toLocaleString().toLowerCase();
+        const dateStr = new Date(e.timestamp).toLocaleDateString().toLowerCase();
+        const email = (e.details.email || '').toLowerCase();
+        const phone = (e.details.phone || '').toLowerCase();
+        const searchable = `${timeStr} ${dateStr} ${email} ${phone} ${e.details.candidateName || ''}`.toLowerCase();
+        if (!terms.every(term => searchable.includes(term))) {
+          return false;
+        }
+      }
+      return true;
+    });
+
+    const timelineTarget = document.getElementById('audit-timeline-target');
+    if (timelineTarget) {
+      timelineTarget.innerHTML = filtered.length === 0 ? renderEmpty() : renderTimeline(filtered);
+    }
   }
 
   function renderFilterChip(value, label) {
@@ -106,39 +131,25 @@ export function renderAuditView(container) {
     document.querySelectorAll('.filter-chip').forEach(chip => {
       chip.addEventListener('click', () => {
         activeFilter = chip.dataset.filter;
+
+        // Update active class locally
+        document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+        chip.classList.add('active');
+
         render();
       });
+    });
+
+    document.getElementById('audit-search')?.addEventListener('input', (e) => {
+      searchTerm = e.target.value.toLowerCase();
+      render();
     });
   }
 
   container.innerHTML = '<div class="audit-container"><div class="card"><div class="empty-state" style="padding: 4rem;">⏳ Loading audit trail...</div></div></div>';
 
   getAuditLog().then(data => {
-    const currentLog = data.reverse();
-
-    // Re-define render to use the fetched data so filters work without re-fetching
-    render = function () {
-      const filtered = activeFilter === 'ALL'
-        ? currentLog
-        : currentLog.filter(e => e.type === activeFilter);
-
-      container.innerHTML = `
-      <div class="audit-container">
-        <div class="audit-header">
-          <h2>📜 Audit Trail</h2>
-          <div class="audit-filters">
-            ${renderFilterChip('ALL', 'All Events')}
-            ${renderFilterChip('SUBMISSION', 'Submissions')}
-            ${renderFilterChip('EXCEPTION_GRANTED', 'Exceptions')}
-            ${renderFilterChip('MANAGER_REVIEW_FLAGGED', 'Flagged')}
-          </div>
-        </div>
-        ${filtered.length === 0 ? renderEmpty() : renderTimeline(filtered)}
-      </div>
-    `;
-      attachListeners();
-    };
-
+    currentLog = data;
     render();
   });
 }

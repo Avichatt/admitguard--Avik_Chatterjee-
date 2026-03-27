@@ -1,13 +1,17 @@
 import express from 'express';
-import db from '../db.js';
+import supabase from '../db.js';
 
 const router = express.Router();
 
-router.get('/csv', (req, res) => {
+router.get('/csv', async (req, res) => {
     try {
-        const rows = db.prepare('SELECT * FROM candidates ORDER BY created_at DESC').all();
-        if (rows.length === 0) {
-            return res.status(404).send('No candidates found');
+        const { data: rows, error } = await supabase
+            .from('candidates')
+            .select('*')
+            .order('created_at', { ascending: false });
+
+        if (error || !rows || rows.length === 0) {
+            return res.status(error ? 500 : 404).send(error ? error.message : 'No candidates found');
         }
 
         const headers = [
@@ -18,7 +22,7 @@ router.get('/csv', (req, res) => {
         ];
 
         const csvRows = rows.map(r => {
-            const data = JSON.parse(r.data);
+            const data = typeof r.data === 'string' ? JSON.parse(r.data) : r.data;
             return [
                 r.id,
                 data.fullName,
@@ -34,7 +38,7 @@ router.get('/csv', (req, res) => {
                 data.offerLetterSent,
                 r.exception_count,
                 r.status,
-                r.requires_manager_review === 1 ? 'Yes' : 'No',
+                (r.requires_manager_review === 1 || r.requires_manager_review === true) ? 'Yes' : 'No',
                 r.created_at
             ];
         });
@@ -51,20 +55,24 @@ router.get('/csv', (req, res) => {
     }
 });
 
-router.get('/json', (req, res) => {
+router.get('/json', async (req, res) => {
     try {
-        const rows = db.prepare('SELECT * FROM candidates ORDER BY created_at DESC').all();
-        if (rows.length === 0) {
-            return res.status(404).json({ message: 'No candidates found' });
+        const { data: rows, error } = await supabase
+            .from('candidates')
+            .select('*')
+            .order('created_at', { ascending: false });
+
+        if (error || !rows || rows.length === 0) {
+            return res.status(error ? 500 : 404).json({ message: error ? error.message : 'No candidates found' });
         }
 
         const candidates = rows.map(r => ({
             id: r.id,
-            data: JSON.parse(r.data),
-            exceptions: JSON.parse(r.exceptions),
+            data: typeof r.data === 'string' ? JSON.parse(r.data) : r.data,
+            exceptions: typeof r.exceptions === 'string' ? JSON.parse(r.exceptions) : r.exceptions,
             exceptionCount: r.exception_count,
-            requiresManagerReview: r.requires_manager_review === 1,
-            systemFlags: JSON.parse(r.system_flags),
+            requiresManagerReview: r.requires_manager_review === 1 || r.requires_manager_review === true,
+            systemFlags: typeof r.system_flags === 'string' ? JSON.parse(r.system_flags) : r.system_flags,
             status: r.status,
             createdAt: r.created_at
         }));

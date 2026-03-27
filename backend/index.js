@@ -52,6 +52,16 @@ app.get('/api/stats', async (req, res) => {
     }
 });
 
+// Debug route for environment mapping
+app.get('/api/debug', (req, res) => {
+    import('./db.js').then(({ envStatus }) => {
+        res.json({
+            status: 'running',
+            env: envStatus
+        });
+    });
+});
+
 // Emails route (Refactored for Supabase)
 app.get('/api/emails', async (req, res) => {
     try {
